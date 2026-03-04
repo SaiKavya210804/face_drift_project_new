@@ -23,7 +23,7 @@ def preprocess_image(image):
     return image
 
 
-def apply_blur(image, ksize=15):
+def apply_blur(image, ksize=41):
     img_np = np.array(image)
     blurred = cv2.GaussianBlur(img_np, (ksize, ksize), 0)
     return Image.fromarray(blurred)
@@ -33,3 +33,10 @@ def apply_low_light(image, factor=0.4):
     img_np = np.array(image)
     dark = (img_np * factor).astype(np.uint8)
     return Image.fromarray(dark)
+
+def apply_noise(image, noise_level=120): #gaussian noise with std dev of 120
+    img_np = np.array(image)
+    noise = np.random.normal(0, noise_level, img_np.shape)
+    noisy = img_np + noise
+    noisy = np.clip(noisy, 0, 255).astype(np.uint8)
+    return Image.fromarray(noisy)
