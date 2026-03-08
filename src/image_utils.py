@@ -40,3 +40,6 @@ def apply_noise(image, noise_level=120): #gaussian noise with std dev of 120
     noisy = img_np + noise
     noisy = np.clip(noisy, 0, 255).astype(np.uint8)
     return Image.fromarray(noisy)
+
+def apply_rotation(image, angle=20):
+    return image.rotate(angle)

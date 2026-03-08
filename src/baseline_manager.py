@@ -34,12 +34,21 @@ class BaselineManager:
     def compute_baseline(self):
         if len(self.embeddings) < 5:
             raise ValueError("At least 5 baseline images required")
+        
+        # self.mean_vector = np.mean(self.embeddings, axis=0)
+        # self.mean_vector = self.mean_vector / np.linalg.norm(self.mean_vector)
+
         self.mean_vector = np.mean(self.embeddings, axis=0)
+
+        norm = np.linalg.norm(self.mean_vector)
+
+        if norm != 0:
+            self.mean_vector = self.mean_vector / norm
 
         distances = [
             np.linalg.norm(e - self.mean_vector)
             for e in self.embeddings
-     ]
+        ]
 
         mean_dist = np.mean(distances)
         std_dist = np.std(distances)

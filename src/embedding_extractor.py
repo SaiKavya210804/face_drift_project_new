@@ -15,5 +15,6 @@ def load_embedding_model(model_path):
         inputs=model.layers[0].input,
         outputs=model.layers[-3].output
     )
+    print("Embedding dimension:", embedding_model.output_shape)
 
     return embedding_model
