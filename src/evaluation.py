@@ -49,6 +49,7 @@ def evaluate_results(true_labels, predicted_labels):
 #     plt.title("Drift Detection Confusion Matrix")
 
 #     plt.show()
+
 def plot_confusion_matrix(cm):
 
     plt.figure(figsize=(5,4))
