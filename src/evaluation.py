@@ -31,6 +31,24 @@ def evaluate_results(true_labels, predicted_labels):
 # CONFUSION MATRIX VISUALIZATION
 # --------------------------------------------------
 
+# def plot_confusion_matrix(cm):
+
+#     plt.figure(figsize=(5,4))
+
+#     sns.heatmap(
+#         cm,
+#         annot=True,
+#         fmt='d',
+#         cmap="Blues",
+#         xticklabels=["No Drift","Drift"],
+#         yticklabels=["No Drift","Drift"]
+#     )
+
+#     plt.xlabel("Predicted")
+#     plt.ylabel("Actual")
+#     plt.title("Drift Detection Confusion Matrix")
+
+#     plt.show()
 def plot_confusion_matrix(cm):
 
     plt.figure(figsize=(5,4))
@@ -48,4 +66,6 @@ def plot_confusion_matrix(cm):
     plt.ylabel("Actual")
     plt.title("Drift Detection Confusion Matrix")
 
-    plt.show()
+    # return plt
+    fig = plt.gcf()
+    return fig

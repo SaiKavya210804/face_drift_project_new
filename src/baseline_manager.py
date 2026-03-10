@@ -13,7 +13,8 @@ class BaselineManager:
         if norm == 0:
             return  # avoid division by zero
 
-        embedding = embedding / norm
+        # embedding = embedding / norm
+        
         self.embeddings.append(embedding)
 
     # def compute_baseline(self):
@@ -38,22 +39,23 @@ class BaselineManager:
         # self.mean_vector = np.mean(self.embeddings, axis=0)
         # self.mean_vector = self.mean_vector / np.linalg.norm(self.mean_vector)
 
-        self.mean_vector = np.mean(self.embeddings, axis=0)
+        # self.mean_vector = np.mean(self.embeddings, axis=0)
+        # self.mean_vector = self.mean_vector / np.linalg.norm(self.mean_vector)
 
-        norm = np.linalg.norm(self.mean_vector)
-
-        if norm != 0:
-            self.mean_vector = self.mean_vector / norm
+        mean_vec = np.mean(self.embeddings, axis=0)
+        self.mean_vector = mean_vec / np.linalg.norm(mean_vec)
 
         distances = [
             np.linalg.norm(e - self.mean_vector)
             for e in self.embeddings
         ]
 
-        mean_dist = np.mean(distances)
-        std_dist = np.std(distances)
+        # mean_dist = np.mean(distances)
+        # std_dist = np.std(distances)
 
-        self.threshold = mean_dist + 2 * std_dist
+        # self.threshold = mean_dist + 3 * std_dist
+        max_dist = np.max(distances)
+        self.threshold = max_dist * 1.5
 
         return self.mean_vector, self.threshold
 
