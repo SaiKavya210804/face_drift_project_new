@@ -1,6 +1,8 @@
-streamlit
-tensorflow
-numpy
-opencv-python
-Pillow
-scipy
+streamlit          # UI framework
+tensorflow         # CNN model loading + embeddings
+numpy              # numerical ops, distances, normalization
+scikit-learn       # confusion matrix, accuracy metrics
+pillow             # image loading (Image.open)
+matplotlib         # plotting confusion matrix + drift trend graphs
+pandas             # experiment log tables + CSV export
+opencv-python      # image preprocessing + degradation functions
