@@ -410,14 +410,20 @@ if len(st.session_state.true_labels) > 0 and len(st.session_state.predicted_labe
             st.session_state.predicted_labels
         )
         st.write("Accuracy:", round(acc, 4))
+        # st.write("→ Accuracy shows the overall proportion of correct predictions out of all cases.")
 
         precision, recall, f1 = compute_classification_metrics(
             st.session_state.true_labels,
             st.session_state.predicted_labels
         )
         st.write("Precision:", round(precision, 4))
+        # st.write("→ Precision reflects how many of the predicted drift cases were actually true drift (low precision means more false alarms).")
+
         st.write("Recall:", round(recall, 4))
+        # st.write("→ Recall measures how many of the actual drift cases were correctly detected (high recall means fewer misses).")
+
         st.write("F1 Score:", round(f1, 4))
+        # st.write("→ F1 balances precision and recall into a single score, useful when classes are imbalanced.")
 
         fig = plot_confusion_matrix(cm)
         st.pyplot(fig)
