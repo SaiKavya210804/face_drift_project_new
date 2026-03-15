@@ -34,7 +34,7 @@ from image_utils import (
     apply_noise,
     apply_rotation,
 )
-from evaluation import evaluate_results, plot_confusion_matrix
+from evaluation import compute_classification_metrics, evaluate_results, plot_confusion_matrix, plot_roc_curve
 
 
 # --------------------------------------------------
@@ -397,23 +397,57 @@ if uploaded:
     )
 else:
     st.info("No experiments logged yet.")
-    
-    # --------------------------------------------------
-    # MODEL EVALUATION
-    # --------------------------------------------------
+
+# --------------------------------------------------
+# MODEL EVALUATION
+# --------------------------------------------------
 st.subheader("📊 Model Evaluation")
 
-if st.button("Generate Confusion Matrix"):
-    if len(st.session_state.true_labels) > 0:
+if len(st.session_state.true_labels) > 0 and len(st.session_state.predicted_labels) > 0:
+    if st.button("Generate Confusion Matrix"):
         cm, acc = evaluate_results(
             st.session_state.true_labels,
             st.session_state.predicted_labels
         )
-        st.write("Model Accuracy:", round(acc, 4))
+        st.write("Accuracy:", round(acc, 4))
+
+        precision, recall, f1 = compute_classification_metrics(
+            st.session_state.true_labels,
+            st.session_state.predicted_labels
+        )
+        st.write("Precision:", round(precision, 4))
+        st.write("Recall:", round(recall, 4))
+        st.write("F1 Score:", round(f1, 4))
+
         fig = plot_confusion_matrix(cm)
         st.pyplot(fig)
-    else:
-        st.warning("Run experiments first to generate evaluation metrics")
+
+    # ROC curve button is separate
+    if st.button("Show ROC Curve"):
+        fig_roc = plot_roc_curve(
+            st.session_state.true_labels,
+            st.session_state.predicted_labels
+        )
+        st.pyplot(fig_roc)
+else:
+    st.warning("Run experiments first to generate evaluation metrics")
+
+#     # --------------------------------------------------
+#     # MODEL EVALUATION
+#     # --------------------------------------------------
+# st.subheader("📊 Model Evaluation")
+
+# if st.button("Generate Confusion Matrix"):
+#     if len(st.session_state.true_labels) > 0:
+#         cm, acc = evaluate_results(
+#             st.session_state.true_labels,
+#             st.session_state.predicted_labels
+#         )
+#         st.write("Model Accuracy:", round(acc, 4))
+#         fig = plot_confusion_matrix(cm)
+#         st.pyplot(fig)
+#     else:
+#         st.warning("Run experiments first to generate evaluation metrics")
 
     # --------------------------------------------------
     # CLEAR EXPERIMENT LOG

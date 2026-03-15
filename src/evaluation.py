@@ -8,7 +8,7 @@
 import seaborn as sns
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix, accuracy_score
-
+from sklearn.metrics import precision_score, recall_score, f1_score, roc_curve, auc
 
 # --------------------------------------------------
 # COMPUTE EVALUATION METRICS
@@ -43,23 +43,24 @@ def plot_confusion_matrix(cm):
     fig.colorbar(im)
     return fig
 
-# def plot_confusion_matrix(cm):
+#for binary classification, compute precision, recall, F1-score, and plot ROC curve
+def compute_classification_metrics(true_labels, predicted_labels):
+    precision = precision_score(true_labels, predicted_labels, zero_division=0)
+    recall = recall_score(true_labels, predicted_labels, zero_division=0)
+    f1 = f1_score(true_labels, predicted_labels, zero_division=0)
+    return precision, recall, f1
 
-#     plt.figure(figsize=(5,4))
+def plot_roc_curve(true_labels, predicted_labels):
+    fpr, tpr, _ = roc_curve(true_labels, predicted_labels)
+    roc_auc = auc(fpr, tpr)
 
-#     sns.heatmap(
-#         cm,
-#         annot=True,
-#         fmt='d',
-#         cmap="Blues",
-#         xticklabels=["No Drift","Drift"],
-#         yticklabels=["No Drift","Drift"]
-#     )
-
-#     plt.xlabel("Predicted")
-#     plt.ylabel("Actual")
-#     plt.title("Drift Detection Confusion Matrix")
-
-#     # return plt
-#     fig = plt.gcf()
-#     return fig
+    fig, ax = plt.subplots()
+    ax.plot(fpr, tpr, color="blue", lw=2, label=f"ROC curve (AUC = {roc_auc:.2f})")
+    ax.plot([0, 1], [0, 1], color="gray", linestyle="--")
+    ax.set_xlim([0.0, 1.0])
+    ax.set_ylim([0.0, 1.05])
+    ax.set_xlabel("False Positive Rate")
+    ax.set_ylabel("True Positive Rate")
+    ax.set_title("ROC Curve")
+    ax.legend(loc="lower right")
+    return fig
