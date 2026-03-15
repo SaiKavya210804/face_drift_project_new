@@ -45,7 +45,7 @@ def apply_blur(image, ksize=9):
     return Image.fromarray(blurred)
 
 
-def apply_low_light(image, factor=0.4):
+def apply_low_light(image, factor=0.8):
     img_np = np.array(image)
     dark = (img_np * factor).astype(np.uint8)
     return Image.fromarray(dark)
